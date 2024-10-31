@@ -1,39 +1,36 @@
-print('Welcome To your Personalised Task Tracker')
-
-print('Here You can add, delete tasks, mark their progress as well as make a todo list')
+import datetime
+import json
+import colorama
 
 
 def addtsk():
-    tsk = input('enter the task: ')
-    f = open("/home/s/code/trackr/trackr/tasks.txt", "w" )
-    f.write(tsk)
-    if (tsk==""):
-        return (addtsk())
-    else:
-        print("task saved")
+    tsk=[]
+    while True:
+        utsk=input(colorama.Fore.GREEN + colorama.Style.BRIGHT+'Enter the task')
+        print('task saved')
+        tsk.append(utsk)
+        if (utsk=='exit'):
+            break
+        with open('tasks.json', 'w') as tsks:
+            json.dump(tsk, tsks)
 
-def progress():
-    print('If you have completed the task type done')
-    don = input()
-    if (don=='done'):
-        return (deltsk())
-    else:
-        print("What is the Status of your Task?")
+def  showtsk():
+    dt=str(datetime.datetime.now())
+    with open('tasks.json', 'r')as fp:
+        for x in fp:
+            print(x+dt)
 
 
 
-def deltsk():
-    f = open("/home/s/code/trackr/trackr/tasks.txt", "w")
-    f.write("Nothing to see Here")
-    f.close()
 
-print('To Add a task type "add" and press enter')
 
-action = input()
-if (action=='add'):
-    addtsk()
-elif (action=='del'):
-    deltsk()
-elif (action=='prog'):
-    progress()
 
+def action():
+    action=input('Enter "add" to add a task \n Enter "show" to show tasks')
+    if (action=='add'):
+        addtsk()
+    elif (action=='show'):
+        showtsk()
+
+
+action()
